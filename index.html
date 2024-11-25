@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>متجر المنتجات</title>
-  <link rel="stylesheet" href="style.css"> <!-- تأكد أن الملف style.css في نفس المجلد -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <div class="logo">متجر المنتجات</div>
     <div class="search-bar">
-      <input type="text" id="search" placeholder="...ابحث عن منتج">
-      <button onclick="searchProduct()">بحث</button>
+      <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="searchProducts()">
     </div>
+    <nav>
+      <ul>
+        <li><a href="#" onclick="showHome()">الرئيسية</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <main>
-    <section class="product-grid" id="productGrid">
-      <!-- بطاقات المنتجات ستتم إضافتها ديناميكيًا -->
-    </section>
+  <main id="mainContent">
+    <!-- سيتم تعبئة المحتوى ديناميكيًا -->
   </main>
 
-  <script src="app.js"></script> <!-- تأكد أن الملف app.js في نفس المجلد -->
+  <script src="app.js"></script>
 </body>
 </html>
