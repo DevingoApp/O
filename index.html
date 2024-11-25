@@ -76,7 +76,6 @@
       height: auto;
       border-radius: 5px;
     }
-
   </style>
 </head>
 <body>
@@ -130,7 +129,6 @@
       }
     ];
 
-    // عند تحميل الصفحة الرئيسية
     window.onload = () => {
       const productGrid = document.getElementById("productGrid");
       products.forEach(product => {
@@ -140,13 +138,18 @@
           <img src="${product.image}" alt="${product.name}">
           <h3>${product.name}</h3>
           <p>${product.price}</p>
-          <a href="product.html?id=${product.id}">عرض التفاصيل</a>
+          <a href="javascript:void(0);" onclick="showProductDetails(${product.id})">عرض التفاصيل</a>
         `;
         productGrid.appendChild(productCard);
       });
+
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get("id");
+      if (productId) {
+        showProductDetails(productId);
+      }
     };
 
-    // البحث عن المنتجات
     function searchProduct() {
       const searchQuery = document.getElementById("search").value.toLowerCase();
       const filteredProducts = products.filter(product =>
@@ -162,245 +165,29 @@
           <img src="${product.image}" alt="${product.name}">
           <h3>${product.name}</h3>
           <p>${product.price}</p>
-          <a href="product.html?id=${product.id}">عرض التفاصيل</a>
+          <a href="javascript:void(0);" onclick="showProductDetails(${product.id})">عرض التفاصيل</a>
         `;
         productGrid.appendChild(productCard);
       });
     }
 
-    // عرض تفاصيل المنتج في صفحة product.html
-    function showProductDetails() {
-      const params = new URLSearchParams(window.location.search);
-      const productId = params.get("id");
+    function showProductDetails(productId) {
       const product = products.find(p => p.id == productId);
+      const productDetails = document.getElementById("productDetails");
 
       if (!product) {
-        document.getElementById("productDetails").innerHTML = "<p>المنتج غير موجود!</p>";
+        productDetails.innerHTML = "<p>المنتج غير موجود!</p>";
         return;
       }
 
-      document.getElementById("productDetails").innerHTML = `
+      productDetails.innerHTML = `
         <div class="product-card">
           <img src="${product.image}" alt="${product.name}">
           <h1>${product.name}</h1>
-          <p><strong>السعر:</strong> ${product.price}</p>
-          <p><strong>الوصف:</strong> ${product.description}</p>
-          <button onclick="addToCart(${product.id})">إضافة إلى السلة</button>
+          <p>السعر: ${product.price}</p>
+          <p>${product.description}</p>
         </div>
       `;
-    }
-
-    // استدعاء وظيفة عرض التفاصيل فقط عند فتح صفحة product.html
-    if (window.location.pathname.includes("product.html")) {
-      showProductDetails();
-    }
-
-    // محاكاة إضافة المنتج إلى السلة
-    function addToCart(productId) {
-      alert(`تم إضافة المنتج ${productId} إلى السلة!`);
-    }
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="ar">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>متجر المنتجات</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f8f8f8;
-      padding: 10px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo {
-      font-size: 1.5em;
-      color: #333;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #555;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 5px;
-    }
-
-    .search-bar input {
-      padding: 5px;
-      font-size: 1em;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .product-card {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .product-card img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-
-    .product-details {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .product-details img {
-      max-width: 200px;
-      height: auto;
-      border-radius: 5px;
-    }
-
-  </style>
-</head>
-<body>
-  <header>
-    <div class="logo">متجر المنتجات</div>
-    <nav>
-      <ul>
-        <li><a href="#">الرئيسية</a></li>
-        <li><a href="#">عن الموقع</a></li>
-        <li><a href="#">تواصل معنا</a></li>
-      </ul>
-    </nav>
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="...ابحث عن منتج">
-      <button onclick="searchProduct()">بحث</button>
-    </div>
-  </header>
-
-  <main>
-    <section class="product-grid" id="productGrid">
-      <!-- بطاقات المنتجات هنا -->
-    </section>
-
-    <section class="product-details" id="productDetails">
-      <!-- تفاصيل المنتج ستظهر هنا -->
-    </section>
-  </main>
-
-  <script>
-    const products = [
-      { 
-        id: 1, 
-        name: "كولاجين", 
-        price: "$10", 
-        image: "IMG-20241125-WA0002.jpg",
-        description: ".كولاجين طبيعي لدعم صحة البشرة والشعر والأظافر"
-      },
-      { 
-        id: 2, 
-        name: "NATURAL", 
-        price: "$6.99", 
-        image: "IMG-20241125-WA0001.jpg",
-        description: ".منتج NATURAL مميز بتركيبة طبيعية تحافظ على نضارة البشرة"
-      },
-      { 
-        id: 3, 
-        name: "كريم تفتيح البشرة", 
-        price: "$35.56", 
-        image: "IMG-20241125-WA0000.jpg",
-        description: ".كريم تفتيح فعال يساعد على توحيد لون البشرة وإزالة البقع الداكنة"
-      }
-    ];
-
-    // عند تحميل الصفحة الرئيسية
-    window.onload = () => {
-      const productGrid = document.getElementById("productGrid");
-      products.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.className = "product-card";
-        productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>${product.price}</p>
-          <a href="product.html?id=${product.id}">عرض التفاصيل</a>
-        `;
-        productGrid.appendChild(productCard);
-      });
-    };
-
-    // البحث عن المنتجات
-    function searchProduct() {
-      const searchQuery = document.getElementById("search").value.toLowerCase();
-      const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchQuery)
-      );
-
-      const productGrid = document.getElementById("productGrid");
-      productGrid.innerHTML = ""; // مسح المنتجات الحالية
-      filteredProducts.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.className = "product-card";
-        productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>${product.price}</p>
-          <a href="product.html?id=${product.id}">عرض التفاصيل</a>
-        `;
-        productGrid.appendChild(productCard);
-      });
-    }
-
-    // عرض تفاصيل المنتج في صفحة product.html
-    function showProductDetails() {
-      const params = new URLSearchParams(window.location.search);
-      const productId = params.get("id");
-      const product = products.find(p => p.id == productId);
-
-      if (!product) {
-        document.getElementById("productDetails").innerHTML = "<p>المنتج غير موجود!</p>";
-        return;
-      }
-
-      document.getElementById("productDetails").innerHTML = `
-        <div class="product-card">
-          <img src="${product.image}" alt="${product.name}">
-          <h1>${product.name}</h1>
-          <p><strong>السعر:</strong> ${product.price}</p>
-          <p><strong>الوصف:</strong> ${product.description}</p>
-          <button onclick="addToCart(${product.id})">إضافة إلى السلة</button>
-        </div>
-      `;
-    }
-
-    // استدعاء وظيفة عرض التفاصيل فقط عند فتح صفحة product.html
-    if (window.location.pathname.includes("product.html")) {
-      showProductDetails();
-    }
-
-    // محاكاة إضافة المنتج إلى السلة
-    function addToCart(productId) {
-      alert(`تم إضافة المنتج ${productId} إلى السلة!`);
     }
   </script>
 </body>
