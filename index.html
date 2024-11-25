@@ -1,86 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>متجر المنتجات</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f8f8f8;
-      padding: 10px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .logo {
-      font-size: 1.5em;
-      color: #333;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #555;
-    }
-
-    .search-bar {
-      display: flex;
-      gap: 5px;
-    }
-
-    .search-bar input {
-      padding: 5px;
-      font-size: 1em;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .product-card {
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .product-card img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 5px;
-    }
-
-    .product-details {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
-      padding: 20px;
-      background-color: #f8f8f8;
-      border-radius: 5px;
-    }
-    
-    .product-details img {
-      max-width: 300px;
-      height: auto;
-      border-radius: 5px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css"> <!-- تأكد أن الملف style.css في نفس المجلد -->
 </head>
 <body>
   <header>
@@ -100,95 +24,10 @@
 
   <main>
     <section class="product-grid" id="productGrid">
-      <!-- بطاقات المنتجات هنا -->
-    </section>
-
-    <!-- قسم التفاصيل سيتم إظهاره عند الضغط على عرض التفاصيل -->
-    <section class="product-details" id="productDetails">
-      <h2 id="productTitle"></h2>
-      <img id="productImage" src="" alt="منتج">
-      <p id="productPrice"></p>
-      <p id="productDescription"></p>
-      <button onclick="closeDetails()">إغلاق التفاصيل</button>
+      <!-- بطاقات المنتجات ستتم إضافتها ديناميكيًا -->
     </section>
   </main>
 
-  <script>
-    const products = [
-      { 
-        id: 1, 
-        name: "كولاجين", 
-        price: "$10", 
-        image: "IMG-20241125-WA0002.jpg",
-        description: ".كولاجين طبيعي لدعم صحة البشرة والشعر والأظافر"
-      },
-      { 
-        id: 2, 
-        name: "NATURAL", 
-        price: "$6.99", 
-        image: "IMG-20241125-WA0001.jpg",
-        description: ".منتج NATURAL مميز بتركيبة طبيعية تحافظ على نضارة البشرة"
-      },
-      { 
-        id: 3, 
-        name: "كريم تفتيح البشرة", 
-        price: "$35.56", 
-        image: "IMG-20241125-WA0000.jpg",
-        description: ".كريم تفتيح فعال يساعد على توحيد لون البشرة وإزالة البقع الداكنة"
-      }
-    ];
-
-    window.onload = () => {
-      const productGrid = document.getElementById("productGrid");
-      products.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.className = "product-card";
-        productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>${product.price}</p>
-          <button onclick="showDetails(${product.id})">عرض التفاصيل</button>
-        `;
-        productGrid.appendChild(productCard);
-      });
-    };
-
-    function searchProduct() {
-      const searchQuery = document.getElementById("search").value.toLowerCase();
-      const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchQuery)
-      );
-
-      const productGrid = document.getElementById("productGrid");
-      productGrid.innerHTML = ""; // مسح المنتجات الحالية
-      filteredProducts.forEach(product => {
-        const productCard = document.createElement("div");
-        productCard.className = "product-card";
-        productCard.innerHTML = `
-          <img src="${product.image}" alt="${product.name}">
-          <h3>${product.name}</h3>
-          <p>${product.price}</p>
-          <button onclick="showDetails(${product.id})">عرض التفاصيل</button>
-        `;
-        productGrid.appendChild(productCard);
-      });
-    }
-
-    function showDetails(productId) {
-      const product = products.find(p => p.id === productId);
-      document.getElementById("productTitle").textContent = product.name;
-      document.getElementById("productImage").src = product.image;
-      document.getElementById("productPrice").textContent = `السعر: ${product.price}`;
-      document.getElementById("productDescription").textContent = product.description;
-
-      // عرض تفاصيل المنتج
-      document.getElementById("productDetails").style.display = "block";
-    }
-
-    function closeDetails() {
-      // إخفاء تفاصيل المنتج عند الضغط على "إغلاق التفاصيل"
-      document.getElementById("productDetails").style.display = "none";
-    }
-  </script>
+  <script src="app.js"></script> <!-- تأكد أن الملف app.js في نفس المجلد -->
 </body>
 </html>
