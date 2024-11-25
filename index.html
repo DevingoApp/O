@@ -67,12 +67,16 @@
     }
 
     .product-details {
-      padding: 20px;
+      display: none;
+      margin-top: 20px;
       text-align: center;
+      padding: 20px;
+      background-color: #f8f8f8;
+      border-radius: 5px;
     }
-
+    
     .product-details img {
-      max-width: 200px;
+      max-width: 300px;
       height: auto;
       border-radius: 5px;
     }
@@ -99,8 +103,13 @@
       <!-- بطاقات المنتجات هنا -->
     </section>
 
+    <!-- قسم التفاصيل سيتم إظهاره عند الضغط على عرض التفاصيل -->
     <section class="product-details" id="productDetails">
-      <!-- تفاصيل المنتج ستظهر هنا -->
+      <h2 id="productTitle"></h2>
+      <img id="productImage" src="" alt="منتج">
+      <p id="productPrice"></p>
+      <p id="productDescription"></p>
+      <button onclick="closeDetails()">إغلاق التفاصيل</button>
     </section>
   </main>
 
@@ -138,16 +147,10 @@
           <img src="${product.image}" alt="${product.name}">
           <h3>${product.name}</h3>
           <p>${product.price}</p>
-          <a href="javascript:void(0);" onclick="showProductDetails(${product.id})">عرض التفاصيل</a>
+          <button onclick="showDetails(${product.id})">عرض التفاصيل</button>
         `;
         productGrid.appendChild(productCard);
       });
-
-      const params = new URLSearchParams(window.location.search);
-      const productId = params.get("id");
-      if (productId) {
-        showProductDetails(productId);
-      }
     };
 
     function searchProduct() {
@@ -165,29 +168,26 @@
           <img src="${product.image}" alt="${product.name}">
           <h3>${product.name}</h3>
           <p>${product.price}</p>
-          <a href="javascript:void(0);" onclick="showProductDetails(${product.id})">عرض التفاصيل</a>
+          <button onclick="showDetails(${product.id})">عرض التفاصيل</button>
         `;
         productGrid.appendChild(productCard);
       });
     }
 
-    function showProductDetails(productId) {
-      const product = products.find(p => p.id == productId);
-      const productDetails = document.getElementById("productDetails");
+    function showDetails(productId) {
+      const product = products.find(p => p.id === productId);
+      document.getElementById("productTitle").textContent = product.name;
+      document.getElementById("productImage").src = product.image;
+      document.getElementById("productPrice").textContent = `السعر: ${product.price}`;
+      document.getElementById("productDescription").textContent = product.description;
 
-      if (!product) {
-        productDetails.innerHTML = "<p>المنتج غير موجود!</p>";
-        return;
-      }
+      // عرض تفاصيل المنتج
+      document.getElementById("productDetails").style.display = "block";
+    }
 
-      productDetails.innerHTML = `
-        <div class="product-card">
-          <img src="${product.image}" alt="${product.name}">
-          <h1>${product.name}</h1>
-          <p>السعر: ${product.price}</p>
-          <p>${product.description}</p>
-        </div>
-      `;
+    function closeDetails() {
+      // إخفاء تفاصيل المنتج عند الضغط على "إغلاق التفاصيل"
+      document.getElementById("productDetails").style.display = "none";
     }
   </script>
 </body>
